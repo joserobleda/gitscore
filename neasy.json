@@ -1,0 +1,12 @@
+{
+  "cookie": {
+    "secret": "67c9d846615cb69fcd45efa412489bafd185bdd8"
+  },
+  "server": {
+    "domain": "localhost",
+    "port": 8080
+  },
+  "database": {
+    "name": "gitscore"
+  }
+}
