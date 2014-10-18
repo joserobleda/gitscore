@@ -21,7 +21,6 @@
 		repo: function (req, res, next) {
 			var repository = new Repo({owner: req.params.owner, repo: req.params.repo});
 			repository.getUsers().then(function (users) {
-				console.log(users);
 				res.render('index.twig', {
 					users: users,
 					repository: repository
