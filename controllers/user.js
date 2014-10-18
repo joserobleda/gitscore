@@ -13,6 +13,14 @@
 			return res.end('200 OK');
 		},
 
+		repo: function (req, res, next) {
+			var owner = req.param.owner;
+			var repo = req.param.repo;
+
+			return res.end(owner + '/' + repo);
+			// db.pulls.find({"head.repo.full_name":"joserobleda/node-po-editor", "updated_at": {$gte: "2014-10-18T00:00:00"}})
+		},
+
 		/***
 		   * Hooks here
 		   *
