@@ -33,7 +33,12 @@
 				result.pulls += 1;
 				result.bounces += curr.bounces;
 				result.reviews += curr.reviews;
+
+				result.login = curr.user.login;
+				result.avatar_url = curr.user.avatar_url;
+				result.url = curr.user.url;
 			};
+
 
 			this.db.group(this.constructor.class, keys, condition, initial, reduce, null, function (err, results) {
 				if (err) {
