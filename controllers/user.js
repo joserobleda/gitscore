@@ -43,7 +43,7 @@
 
 				var update = {
 					'bounces': bounces + 1,
-					'updated_at', pull.updated_at
+					'updated_at': pull.updated_at
 				};
 
 				pull.set(update).save().then(function () {
