@@ -20,6 +20,11 @@
 		hook: function (req, res, next) {
 			var action		= req.body.action;
 			var pull 		= req.body.pull_request;
+			if (!pull) {
+				console.log("invalid pull", req.body);
+				return res.end();
+			}
+
 			var repository	= pull.head.repo;
 			var creator 	= pull.user;
 			var assignee 	= pull.assignee;
