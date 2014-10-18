@@ -18,21 +18,19 @@
 		   *
 		   */
 		hook: function (req, res, next) {
+			var action		= req.body.action;
+			var pull 		= req.body.pull_request;
+			var repository	= pull.repository;
+			var creator 	= pull.user;
+			var assignee 	= pull.assignee;
+
+			console.log("Action: " + action + " - Repo: " + repository.full_name + ". Pull: " + pull.number);
 			if (req.body.action !== 'assigned') {
 				return res.end();
 			}
 
-			var pull 		= req.body.pull_request;
-			var creator 	= pull.user;
-			var assignee 	= pull.assignee;
-
-			console.log("creator: " + creator.login);
-
-			if (assignee) {
-				console.log("assignee: " + assignee.login);
-			} else {
-				console.log("no assignee");
-			}
+			var assigneeLogin = assignee ? assignee.login : '';
+			console.log("Creator: " + creator.login + " - Asignee: " + assigneeLogin);
 
 			PullRequest.findOrCreate({id: pull.id}, pull).then(function (pull) {
 				var bounces;
