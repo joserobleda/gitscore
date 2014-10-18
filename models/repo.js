@@ -26,7 +26,7 @@
 			};
 
 			condition = {
-
+				'head.repo.full_name': this.full_name
 			};
 
 			reduce = function (curr, result) {
