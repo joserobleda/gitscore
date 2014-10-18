@@ -41,7 +41,12 @@
 					bounces = 0;
 				}
 
-				pull.set('bounces', bounces + 1).save().then(function () {
+				var update = {
+					'bounces': bounces + 1,
+					'updated_at', pull.updated_at
+				};
+
+				pull.set(update).save().then(function () {
 					console.log('bounces: ' + pull.get('bounces'));
 				});
 			});
