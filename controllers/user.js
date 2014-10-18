@@ -32,6 +32,12 @@
 			var assigneeLogin = assignee ? assignee.login : '';
 			console.log("Creator: " + creator.login + " - Asignee: " + assigneeLogin);
 
+			if (creator.login !== assigneeLogin) {
+				return res.end();
+			}
+
+			console.log("Bounced! +1 !!!!");
+
 			PullRequest.findOrCreate({id: pull.id}, pull).then(function (pull) {
 				var bounces;
 
