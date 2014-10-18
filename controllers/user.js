@@ -28,6 +28,7 @@
 			var repository	= pull.head.repo;
 			var creator 	= pull.user;
 			var assignee 	= pull.assignee;
+			var updated 	= pull.updated_at;
 
 			console.log("Action: " + action + " - Repo: " + repository.full_name + ". Pull: " + pull.number);
 			if (req.body.action !== 'assigned') {
@@ -52,7 +53,7 @@
 
 				var update = {
 					'bounces': bounces + 1,
-					'updated_at': pull.updated_at
+					'updated_at': updated
 				};
 
 				pull.set(update).save().then(function () {
