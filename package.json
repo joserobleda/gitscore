@@ -4,7 +4,7 @@
   "description": "A git score bounced-based system",
   "main": "app.js",
   "dependencies": {
-    "neasy": "^0.0.20"
+    "neasy": "^0.0.21"
   },
   "devDependencies": {},
   "scripts": {
