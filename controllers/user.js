@@ -8,7 +8,13 @@
 		/***
 		   * Hooks here
 		   *
-		   *
+		   */
+		landing: function (req, res, next) {
+			return res.end('200 OK');
+		},
+
+		/***
+		   * Hooks here
 		   *
 		   */
 		hook: function (req, res, next) {
