@@ -20,7 +20,7 @@
 		hook: function (req, res, next) {
 			var action		= req.body.action;
 			var pull 		= req.body.pull_request;
-			var repository	= pull.repository;
+			var repository	= pull.head.repo;
 			var creator 	= pull.user;
 			var assignee 	= pull.assignee;
 
