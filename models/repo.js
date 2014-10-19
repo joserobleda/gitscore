@@ -11,7 +11,7 @@
 		},
 
 		getUsers: function () {
-			var deferred, reduce, initial, keys, condition;
+			var deferred, reduce, initial, keys, condition, finalize;
 
 			deferred = Q.defer();
 
@@ -33,14 +33,19 @@
 				result.pulls += 1;
 				result.bounces += curr.bounces;
 				result.reviews += curr.reviews;
-
-				result.login = curr.user.login;
-				result.avatar_url = curr.user.avatar_url;
-				result.url = curr.user.url;
 			};
 
+			finalize = function (curr) {
+				var user = JSON.parse(JSON.stringify(curr.user));
 
-			this.db.group(this.constructor.class, keys, condition, initial, reduce, null, function (err, results) {
+				user.pulls 		= curr.pulls;
+				user.bounces 	= curr.bounces;
+				user.reviews 	= curr.reviews;
+
+				return user;
+			};
+
+			this.db.group(this.constructor.class, keys, condition, initial, reduce, finalize, function (err, results) {
 				if (err) {
 					return deferred.reject(new Error(err));
 				}
