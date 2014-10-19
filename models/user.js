@@ -1,7 +1,7 @@
 
 	var app		= require('neasy');
 	var Model 	= require('neasy/model');
-
+	var Backbone = app.require('backbone');
 
 	var User = Model.extend({
 		// @override
@@ -43,5 +43,13 @@
 	};
 
 	User.class = 'users';
+
+	User.Collection = Backbone.Collection.extend({
+		model: User,
+		comparator: function (user) {
+			return 1 - user.getScore();
+		}
+	});
+
 
 	module.exports = User;

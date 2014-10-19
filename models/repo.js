@@ -4,9 +4,6 @@
 	var User 	= require('./user.js');
 	var Q 		= app.require('q');
 
-	// User collection class
-	var UserCollection = app.require('backbone').Collection.extend({});
-
 
 	var Repo = Model.extend({
 		full_name: '',
@@ -55,11 +52,7 @@
 					return deferred.reject(new Error(err));
 				}
 
-				var users = results.map(function (user) {
-					return new User(user);
-				});
-
-				users = new UserCollection(users);
+				var users = new User.Collection(results);
 				deferred.resolve(users);
 			});
 
