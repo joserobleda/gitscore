@@ -17,6 +17,8 @@
         <ul>
             {% for user in users %}
                 <li>
+                    <img src="{{ user.avatar_url }}" width="48px" height="48px" />
+                    <br />
                     user: {{ user.login }}
                     <br />
                     score: {{ user.score }}
