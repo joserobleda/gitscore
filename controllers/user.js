@@ -22,7 +22,7 @@
 			var repository = new Repo({owner: req.params.owner, repo: req.params.repo});
 			repository.getUsers().then(function (users) {
 				res.render('index.twig', {
-					users: users,
+					users: users.toJSON(),
 					repository: repository
 				});
 			}).fail(function (err) {

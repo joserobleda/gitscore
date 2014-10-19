@@ -1,7 +1,12 @@
 
 	var app		= require('neasy');
 	var Model 	= require('neasy/model');
+	var User 	= require('./user.js');
 	var Q 		= app.require('q');
+
+	// User collection class
+	var UserCollection = app.require('backbone').Collection.extend({});
+
 
 	var Repo = Model.extend({
 		full_name: '',
@@ -31,8 +36,8 @@
 
 			reduce = function (curr, result) {
 				result.pulls += 1;
-				result.bounces += curr.bounces;
-				result.reviews += curr.reviews;
+				result.bounces += (curr.bounces || 0);
+				result.reviews += (curr.reviews || 0);
 			};
 
 			finalize = function (curr) {
@@ -50,7 +55,12 @@
 					return deferred.reject(new Error(err));
 				}
 
-				deferred.resolve(results);
+				var users = results.map(function (user) {
+					return new User(user);
+				});
+
+				users = new UserCollection(users);
+				deferred.resolve(users);
 			});
 
 			return deferred.promise;
