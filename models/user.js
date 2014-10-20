@@ -10,9 +10,21 @@
 			var json = Model.prototype.toJSON.call(this);
 
 			json.score = this.getScore();
+			json.quality = this.getQuality();
 
 			// manipulate the json here
 			return json;
+		},
+
+		getQuality: function () {
+			var quality, score, total;
+
+			total	= this.get('pulls') * this.constructor.points.pull;
+			score 	= this.getScore();
+
+			quality = score * 100 / total;
+
+			return quality;
 		},
 
 		getScore: function () {
@@ -28,8 +40,6 @@
 
 			if (score <= 0) {
 				score = 0;
-			} else {
-				score = score * 100 / total;
 			}
 
 			return score;
