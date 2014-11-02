@@ -13,6 +13,17 @@
 			this.full_name 	= attrs.owner + '/' + attrs.repo;
 		},
 
+		// @override
+		toJSON: function () {
+			// call the "super" method
+			var json = Model.prototype.toJSON.call(this);
+
+			json.full_name = this.full_name;
+
+			// manipulate the json here
+			return json;
+		},
+
 		getPullsFromUser: function (user) {
 			var deferred, reduce, initial, keys, condition, finalize;
 

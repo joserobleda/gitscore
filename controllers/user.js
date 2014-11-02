@@ -48,7 +48,7 @@
 			repository.getUsers().then(function (users) {
 				res.render('index.twig', {
 					users: users.toJSON(),
-					repository: repository
+					repository: repository.toJSON()
 				});
 			}).fail(function (err) {
 				res.end(err);
