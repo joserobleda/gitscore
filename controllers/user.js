@@ -44,7 +44,7 @@
 				console.log("invalid event type", eventType);
 			}
 
-			
+
 			var pull = req.body.pull_request;
 
 			if (!pull) {
@@ -97,7 +97,7 @@
 					console.log('bounces: ' + pull.get('bounces') + ' - reviews: ' + pull.get('reviews'));
 				});
 			});
-			
+
 			res.end('ok');
 		}
 
