@@ -7,11 +7,36 @@
 	module.exports = {
 
 		/***
-		   * Hooks here
+		   * The landing page
 		   *
 		   */
 		landing: function (req, res, next) {
 			return res.end('200 OK');
+		},
+
+		/***
+		   * User of a repo
+		   *
+		   */
+		userInRepo: function (req, res, next) {
+			var repository = new Repo({
+				owner: req.params.owner,
+				repo: req.params.repo
+			});
+
+			repository.getPullsFromUser(req.params.user).then(function (pulls) {
+				if (pulls.length === 0) {
+					return res.status(404).end();
+				}
+
+				res.render('pulls.twig', {
+					user: pulls.first().get('user'),
+					pulls: pulls.toJSON(),
+					repository: repository
+				});
+			}).fail(function (err) {
+				res.status(500).end(err);
+			});
 		},
 
 		/***
@@ -57,6 +82,7 @@
 			var creator 	= pull.user;
 			var assignee 	= pull.assignee;
 			var updated 	= pull.updated_at;
+			var title 		= pull.title;
 
 			console.log("Action: " + action + " - Repo: " + repository.full_name + ". Pull: " + pull.number);
 
@@ -90,7 +116,8 @@
 				var update = {
 					'reviews': reviews,
 					'bounces': bounces,
-					'updated_at': updated
+					'updated_at': updated,
+					'title': title
 				};
 
 				pull.set(update).save().then(function () {

@@ -12,24 +12,14 @@
         <link rel="stylesheet" href="/assets/dev/css/app.css" />
     </head>
     <body>
-        <h1 style="text-align:center">{{ repository.full_name }}</h1>
+        <h1 style="text-align:center">{{ repository.full_name }} - {{ user.login }}</h1>
+
+        <img src="{{ user.avatar_url }}" width="48px" height="48px" />
 
         <ul>
-            {% for user in users %}
+            {% for pull in pulls %}
                 <li>
-                    <img src="{{ user.avatar_url }}" width="48px" height="48px" />
-                    <br />
-                    user: <a href="/{{ repository.full_name }}/{{ user.login }}">{{ user.login }}</a>
-                    <br />
-                    score: {{ user.score }} points
-                    <br />
-                    quality: {{ user.quality }}%
-                    <br />
-                    pulls: {{ user.pulls }}
-                    <br />
-                    bounces: {{ user.bounces }}
-                    <br />
-                    reviews: {{ user.reviews }}
+                    <a href="{{ pull.html_url }}">{{ pull.title }}</a>
                 </li>
             {% endfor %}
         </ul>

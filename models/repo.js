@@ -2,6 +2,7 @@
 	var app		= require('neasy');
 	var Model 	= require('neasy/model');
 	var User 	= require('./user.js');
+	var Pull 	= require('./pull.js');
 	var Q 		= app.require('q');
 
 
@@ -10,6 +11,52 @@
 
 		initialize: function (attrs) {
 			this.full_name 	= attrs.owner + '/' + attrs.repo;
+		},
+
+		getPullsFromUser: function (user) {
+			var deferred, reduce, initial, keys, condition, finalize;
+
+			deferred = Q.defer();
+
+			condition = {
+				'head.repo.full_name': this.full_name,
+				'user.login': user
+			};
+
+			keys = {
+				id: 1,
+				number: 1,
+				html_url: 1,
+				title: 1,
+				created_at: 1,
+				updated_at: 1,
+				user: 1
+			};
+
+			initial = {
+				bounces: 0,
+				reviews: 0
+			};
+
+			reduce = function (curr, result) {
+				result.bounces += (curr.bounces || 0);
+				result.reviews += (curr.reviews || 0);
+			};
+
+			finalize = function (curr) {
+				return curr;
+			};
+
+			this.db.group(this.constructor.class, keys, condition, initial, reduce, finalize, function (err, results) {
+				if (err) {
+					return deferred.reject(new Error(err));
+				}
+
+				var pulls = new Pull.Collection(results);
+				deferred.resolve(pulls);
+			});
+
+			return deferred.promise;
 		},
 
 		getUsers: function () {
