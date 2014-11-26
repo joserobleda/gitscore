@@ -9,6 +9,17 @@
 			// call the "super" method
 			var json = Model.prototype.toJSON.call(this);
 
+			var unused = [
+				"followers_url", "gists_url", "following_url",
+				"starred_url", "subscriptions_url", "organizations_url",
+				"gists_url", "repos_url", "events_url", "received_events_url",
+				"type", "site_admin", "gravatar_id", "id"
+			];
+
+			unused.forEach(function (i) {
+				delete json[i];
+			});
+
 			json.score = this.getScore();
 			json.quality = this.getQuality();
 
