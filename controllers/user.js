@@ -57,6 +57,19 @@
 		   */
 		repo: function (req, res, next) {
 			var repository = new Repo({owner: req.params.owner, repo: req.params.repo});
+
+			if (req.accepts('html, json') === 'json') {
+				var promise = repository.getUsers();
+
+				promise.then(function (users) {
+					res.json(users.toJSON());
+				}).fail(function () {
+					res.status(404).end();
+				});
+
+				return;
+			}
+
 			repository.getUsers().then(function (users) {
 				res.render('index.twig', {
 					users: users.toJSON(),
