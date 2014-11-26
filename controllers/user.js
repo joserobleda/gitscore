@@ -24,6 +24,19 @@
 				repo: req.params.repo
 			});
 
+			if (req.accepts('html, json') === 'json') {
+				var promise = repository.getUsers(req.params.user);
+
+				promise.then(function (user) {
+					console.log(user);
+					res.json(user.toJSON());
+				}).fail(function () {
+					res.status(404).end();
+				});
+
+				return;
+			}
+
 			repository.getPullsFromUser(req.params.user).then(function (pulls) {
 				if (pulls.length === 0) {
 					return res.status(404).end();
