@@ -28,7 +28,6 @@
 				var promise = repository.getUsers(req.params.user);
 
 				promise.then(function (user) {
-					console.log(user);
 					res.json(user.toJSON());
 				}).fail(function () {
 					res.status(404).end();
