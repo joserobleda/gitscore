@@ -1,6 +1,6 @@
 {
   "name": "gitscore",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A git score bounced-based system",
   "main": "app.js",
   "dependencies": {
