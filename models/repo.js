@@ -70,7 +70,7 @@
 			return deferred.promise;
 		},
 
-		getUsers: function () {
+		getUsers: function (username) {
 			var deferred, reduce, initial, keys, condition, finalize;
 
 			deferred = Q.defer();
@@ -111,7 +111,28 @@
 				}
 
 				var users = new User.Collection(results);
-				deferred.resolve(users);
+
+				users.each(function (model, index) {
+					model.attributes.ranking = index + 1;
+				});
+
+				if (username) {
+					var found = false;
+
+					users.each(function (model, index) {
+						if (model.get('login') === username) {
+							found = true;
+							deferred.resolve(model);
+							return false;
+						}
+					});
+
+					if (found === false) {
+						deferred.reject();
+					}
+				} else {
+					deferred.resolve(users);
+				}
 			});
 
 			return deferred.promise;
