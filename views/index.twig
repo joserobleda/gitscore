@@ -10,6 +10,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="description" content="Checkout who's the kick-ass developer in {{ repository.repo }}" />
         <link rel="stylesheet" href="/assets/dev/css/app.css" />
+
+        {% include 'webapp.html' %}
     </head>
     <body>
         <h1 style="text-align:center">{{ repository.full_name }}</h1>
