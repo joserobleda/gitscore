@@ -70,7 +70,8 @@
 			return deferred.promise;
 		},
 
-		getUsers: function (username) {
+		getUsers: function (params) {
+			params = params || {};
 			var deferred, reduce, initial, keys, condition, finalize;
 
 			deferred = Q.defer();
@@ -91,6 +92,11 @@
 			condition = {
 				'head.repo.full_name': this.full_name
 			};
+
+			if (params.days) {
+				var startDate = new Date((new Date()).getTime() - (params.days * 24 * 60 * 60 * 1000));
+				condition.updated_at = {"$gte": startDate.toISOString()};
+			}
 
 			reduce = function (curr, result) {
 				result.pulls   += 1;
@@ -125,11 +131,11 @@
 					model.attributes.ranking = index + 1;
 				});
 
-				if (username) {
+				if (params.username) {
 					var found = false;
 
 					users.each(function (model, index) {
-						if (model.get('login') === username) {
+						if (model.get('login') === params.username) {
 							found = true;
 							deferred.resolve(model);
 							return false;

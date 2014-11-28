@@ -25,7 +25,9 @@
 			});
 
 			if (req.accepts('html, json') === 'json') {
-				var promise = repository.getUsers(req.params.user);
+				var promise = repository.getUsers({
+					username: req.params.user
+				});
 
 				promise.then(function (user) {
 					res.json(user.toJSON());
@@ -56,11 +58,16 @@
 		   *
 		   */
 		repo: function (req, res, next) {
-			var repository = new Repo({owner: req.params.owner, repo: req.params.repo});
+			var repository, promise, filter = {};
+
+			if (isNaN(req.query.days) === false) {
+				filter.days = req.query.days;
+			}
+
+			repository	= new Repo({owner: req.params.owner, repo: req.params.repo});
+			promise 	= repository.getUsers(filter);
 
 			if (req.accepts('html, json') === 'json') {
-				var promise = repository.getUsers();
-
 				promise.then(function (users) {
 					res.json(users.toJSON());
 				}).fail(function () {
@@ -70,7 +77,7 @@
 				return;
 			}
 
-			repository.getUsers().then(function (users) {
+			promise.then(function (users) {
 				res.render('index.twig', {
 					users: users.toJSON(),
 					repository: repository.toJSON()
