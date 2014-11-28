@@ -9,22 +9,70 @@
 			// call the "super" method
 			var json = Model.prototype.toJSON.call(this);
 
-			// var unused = [
-			// 	"followers_url", "gists_url", "following_url",
-			// 	"starred_url", "subscriptions_url", "organizations_url",
-			// 	"gists_url", "repos_url", "events_url", "received_events_url",
-			// 	"type", "site_admin", "gravatar_id", "id"
-			// ];
-
-			// unused.forEach(function (i) {
-			// 	delete json[i];
-			// });
-
-			json.score = this.getScore();
-			json.quality = this.getQuality();
+			json.icon 		= this.getIcon();
+			json.score 		= this.getScore();
+			json.quality 	= this.getQuality();
 
 			// manipulate the json here
 			return json;
+		},
+
+		getIcon: function () {
+			var quality = this.getQuality();
+
+			if (quality < 40) {
+				return {
+					unicode: '1f631',
+					emoji: 'scream'
+				};
+			}
+
+			if (quality < 50) {
+				return {
+					unicode: '1f4a9',
+					emoji: 'poop'
+				};
+			}
+
+			if (quality < 60) {
+				return {
+					unicode: '1f44d',
+					emoji: '+1'
+				};
+			}
+
+			if (quality < 70) {
+				return {
+					unicode: '1f44d',
+					emoji: '+1'
+				};
+			}
+
+			if (quality < 80) {
+				return {
+					unicode: '1f4aa',
+					emoji: ':muscle:'
+				};
+			}
+
+			if (quality < 90) {
+				return {
+					unicode: '1f44c',
+					emoji: 'ok_hand'
+				};
+			}
+
+			if (quality < 100) {
+				return {
+					unicode: '1f60e',
+					emoji: 'sunglasses'
+				};
+			}
+
+			return {
+				unicode: '1f47d',
+				emoji: 'alien'
+			};
 		},
 
 		getQuality: function () {
