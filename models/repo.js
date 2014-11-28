@@ -76,13 +76,16 @@
 			deferred = Q.defer();
 
 			keys = {
-				user: 1
+				'user.login': 1,
+				'user.url': 1,
+				'user.html_url': 1
 			};
 
 			initial = {
 				pulls: 0,
 				bounces: 0,
-				reviews: 0
+				reviews: 0,
+				avatar_url: ''
 			};
 
 			condition = {
@@ -90,14 +93,20 @@
 			};
 
 			reduce = function (curr, result) {
-				result.pulls += 1;
+				result.pulls   += 1;
 				result.bounces += (curr.bounces || 0);
 				result.reviews += (curr.reviews || 0);
+
+				result.avatar_url = curr.user.avatar_url;
 			};
 
-			finalize = function (curr) {
-				var user = JSON.parse(JSON.stringify(curr.user));
+			finalize = function (curr, result) {
+				var user = {}
 
+				user.login 		= curr['user.login'];
+				user.url 		= curr['user.url'];
+				user.html_url 	= curr['user.html_url'];
+				user.avatar_url = curr.avatar_url;
 				user.pulls 		= curr.pulls;
 				user.bounces 	= curr.bounces;
 				user.reviews 	= curr.reviews;
