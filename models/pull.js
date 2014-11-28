@@ -13,7 +13,6 @@
 	Pull.Collection = Backbone.Collection.extend({
 		model: Pull,
 		comparator: function (pull) {
-			return 1;
 			var date = new Date(pull.get('created_at'));
 			return -date.getTime();
 		}
