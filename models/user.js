@@ -20,59 +20,51 @@
 		getIcon: function () {
 			var quality = this.getQuality();
 
+			if (quality < 5) {
+				return { unicode: '1f4a9', emoji: 'poop' };
+			}
+
+			if (quality < 10) {
+				return { unicode: '1f628', emoji: 'cold_sweat' };
+			}
+
+			if (quality < 20) {
+				return { unicode: '1f631', emoji: 'scream' };
+			}
+
+			if (quality < 30) {
+				return { unicode: '1f628', emoji: 'fearful' };
+			}
+
 			if (quality < 40) {
-				return {
-					unicode: '1f631',
-					emoji: 'scream'
-				};
+				return { unicode: '1f629', emoji: 'weary' };
 			}
 
 			if (quality < 50) {
-				return {
-					unicode: '1f4a9',
-					emoji: 'poop'
-				};
+				return { unicode: '1f611', emoji: 'expressionless' };
 			}
 
 			if (quality < 60) {
-				return {
-					unicode: '1f44d',
-					emoji: '+1'
-				};
+				return { unicode: '1f44d', emoji: '+1' };
 			}
 
 			if (quality < 70) {
-				return {
-					unicode: '1f44d',
-					emoji: '+1'
-				};
+				return { unicode: '1f44d', emoji: '+1' };
 			}
 
 			if (quality < 80) {
-				return {
-					unicode: '1f4aa',
-					emoji: ':muscle:'
-				};
+				return { unicode: '1f4aa', emoji: ':muscle:' };
 			}
 
 			if (quality < 90) {
-				return {
-					unicode: '1f44c',
-					emoji: 'ok_hand'
-				};
+				return { unicode: '1f44c', emoji: 'ok_hand' };
 			}
 
 			if (quality < 100) {
-				return {
-					unicode: '1f60e',
-					emoji: 'sunglasses'
-				};
+				return { unicode: '1f60e', emoji: 'sunglasses' };
 			}
 
-			return {
-				unicode: '1f47d',
-				emoji: 'alien'
-			};
+			return { unicode: '1f47d', emoji: 'alien' };
 		},
 
 		getQuality: function () {
