@@ -115,6 +115,7 @@
 			var assignee 	= pull.assignee;
 			var updated 	= pull.updated_at;
 			var title 		= pull.title;
+			var sender 		= req.body.sender || {};
 
 			console.log("Action: " + action + " - Repo: " + repository.full_name + ". Pull: " + pull.number);
 
@@ -133,12 +134,17 @@
 				}
 
 				if (req.body.action === 'assigned' && creator.login === assigneeLogin) {
-					console.log("+1 Bounce!!!!");
-					bounces = bounces + 1;
+
+					if (sender.login === assigneeLogin) {
+						console.log("Self-assigned, no bounces");
+					} else {
+						console.log("+1 Bounce!!!!");
+						bounces = bounces + 1;
+					}
 				}
 
-				if (req.body.action === 'created' && req.body.sender) {
-					if (req.body.sender.login != creator.login) {
+				if (req.body.action === 'created' && sender.login) {
+					if (sender.login !== creator.login) {
 						reviews = reviews + 1;
 					} else {
 						console.log('Review from creator');
