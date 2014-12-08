@@ -124,7 +124,7 @@
 			console.log("Creator: " + creator.login + " - Asignee: " + assigneeLogin);
 
 			PullRequest.findOrCreate({id: pull.id}, pull).then(function (pull) {
-				var bounces, reviews, comments;
+				var bounces, reviews, reviewLines;
 
 				if (undefined === (bounces = pull.get('bounces'))) {
 					bounces = 0;
@@ -134,8 +134,8 @@
 					reviews = 0;
 				}
 
-				if (undefined === (comments = pull.get('comments'))) {
-					comments = [];
+				if (undefined === (reviewLines = pull.get('review_lines'))) {
+					reviewLines = [];
 				}
 
 				if (req.body.action === 'assigned' && creator.login === assigneeLogin) {
@@ -151,14 +151,14 @@
 				if (req.body.action === 'created' && sender.login) {
 					if (sender.login !== creator.login) {
 
-						var commentString = comment.commit_id + ':' + comment.path + ':' + comment.position;
-						if (comments.indexOf(commentString) === -1) {
-							comments.push(commentString);
+						var line = comment.commit_id + ':' + comment.path + ':' + comment.position;
+						if (reviewLines.indexOf(line) === -1) {
+							reviewLines.push(line);
 							reviews = reviews + 1;
 
 							console.log("+1 review")
 						} else {
-							console.log('A new comment on existing review: ' + commentString);
+							console.log('A new comment on existing review: ' + line);
 						}
 					} else {
 						console.log('Review from creator');
@@ -170,7 +170,7 @@
 					'bounces': bounces,
 					'updated_at': updated,
 					'title': title,
-					'comments': comments
+					'review_lines': reviewLines
 				};
 
 				pull.set(update).save().then(function () {
