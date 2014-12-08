@@ -116,6 +116,7 @@
 			var updated 	= pull.updated_at;
 			var title 		= pull.title;
 			var sender 		= req.body.sender || {};
+			var comment 	= req.body.comment || {};
 
 			console.log("Action: " + action + " - Repo: " + repository.full_name + ". Pull: " + pull.number);
 
@@ -123,7 +124,7 @@
 			console.log("Creator: " + creator.login + " - Asignee: " + assigneeLogin);
 
 			PullRequest.findOrCreate({id: pull.id}, pull).then(function (pull) {
-				var bounces, reviews;
+				var bounces, reviews, comments;
 
 				if (undefined === (bounces = pull.get('bounces'))) {
 					bounces = 0;
@@ -131,6 +132,10 @@
 
 				if (undefined === (reviews = pull.get('reviews'))) {
 					reviews = 0;
+				}
+
+				if (undefined === (comments = pull.get('comments'))) {
+					comments = [];
 				}
 
 				if (req.body.action === 'assigned' && creator.login === assigneeLogin) {
@@ -145,7 +150,16 @@
 
 				if (req.body.action === 'created' && sender.login) {
 					if (sender.login !== creator.login) {
-						reviews = reviews + 1;
+
+						var commentString = comment.commit_id + ':' + comment.path + ':' + comment.position;
+						if (comments.indexOf(commentString) === -1) {
+							comments.push(commentString);
+							reviews = reviews + 1;
+
+							console.log("+1 review")
+						} else {
+							console.log('A new comment on existing review: ' + commentString);
+						}
 					} else {
 						console.log('Review from creator');
 					}
@@ -155,7 +169,8 @@
 					'reviews': reviews,
 					'bounces': bounces,
 					'updated_at': updated,
-					'title': title
+					'title': title,
+					'comments': comments
 				};
 
 				pull.set(update).save().then(function () {
