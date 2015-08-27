@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/joserobleda/gitscore/issues"
   },
-  "homepage": "https://github.com/joserobleda/gitscore"
+  "homepage": "https://github.com/joserobleda/gitscore",
+  "engines": {
+    "node": "0.10.x"
+  }
 }
